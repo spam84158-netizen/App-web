@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Communauté · Aldetic Frontiers</title>
+<meta name="description" content="Aldetic Frontiers Ltd : Technology Beyond Limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body data-protected="false">
+<div id="site-header"></div>
+<section style="padding-top:clamp(56px,8vw,96px);border:0">
+  <div class="wrap" style="display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(32px,5vw,72px);align-items:start">
+    <div style="position:sticky;top:110px">
+      <p class="eyebrow" data-intro data-en="Developer Hub">Developer Hub</p>
+      <h1 data-intro style="font-size:clamp(40px,4.6vw,60px)" data-en="A place to show your work.">Un espace pour montrer votre travail.</h1>
+      <p class="lead" data-intro style="margin:22px 0" data-en="Publish, discuss, ask for help and propose collaborations.">Publiez, échangez, demandez de l'aide et proposez des collaborations.</p>
+      <div class="notice warn" id="db-note" hidden data-en="Demo mode: posts are saved in this browser only, until the database is connected.">Mode démonstration : les publications sont enregistrées dans ce navigateur uniquement, jusqu'au branchement de la base.</div>
+      <div class="notice" style="margin-top:16px" data-en="Please keep posts respectful and factual. Reports are reviewed by moderators.">Restez respectueux et factuel. Les signalements sont examinés par les modérateurs.</div>
+    </div>
+    <div>
+      <form class="panel" id="composer" style="margin-bottom:24px">
+        <label for="body" style="font-weight:500;display:block;margin-bottom:8px" data-en="Share an update">Partager une mise à jour</label>
+        <textarea id="body" maxlength="500" data-ph-en="What are you building?" placeholder="Que construisez-vous ?"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:12px;flex-wrap:wrap">
+          <span class="muted" style="font-size:13px"><span id="count">0</span>/500</span>
+          <button class="btn small" type="submit" data-en="Publish">Publier</button>
+        </div>
+        <p class="err" id="perr"></p>
+      </form>
+      <div id="feed" style="display:grid;gap:14px"></div>
+      <div id="none" class="empty" hidden data-en="No post yet. Be the first to share an update.">Aucune publication pour le moment. Soyez le premier à partager une mise à jour.</div>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener("aldetic:ready", () => {
+  const db = document.getElementById("db-note"); if (!window.aldeticDb) db.hidden = false;
+  const body = document.getElementById("body"), count = document.getElementById("count");
+  const feed = document.getElementById("feed"), none = document.getElementById("none");
+  body.addEventListener("input", () => count.textContent = body.value.length);
+  let posts = alDemo.get("posts", []);
+  function render() {
+    none.hidden = posts.length > 0;
+    feed.innerHTML = posts.map((p, i) => `<article class="panel" style="padding:20px">
+      <p class="muted" style="margin:0 0 8px;font-size:13px">${esc(p.author)} · ${new Date(p.at).toLocaleString(document.documentElement.lang)}</p>
+      <p style="margin:0 0 14px;white-space:pre-wrap">${esc(p.body)}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn small ghost" data-like="${i}" aria-pressed="${!!p.liked}" style="gap:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true" style="display:inline-block;vertical-align:-2px"><path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.2a4.2 4.2 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></svg> ${p.likes}</button>
+        <button class="btn small ghost" data-report="${i}" data-en="Report">Signaler</button>
+      </div></article>`).join("");
+  }
+  document.getElementById("composer").addEventListener("submit", e => {
+    e.preventDefault();
+    const text = body.value.trim();
+    if (text.length < 3) { document.getElementById("perr").textContent = tr("Écrivez au moins 3 caractères."); return; }
+    posts.unshift({ author: "Vous", body: text, at: Date.now(), likes: 0, liked: false });
+    alDemo.set("posts", posts); body.value = ""; count.textContent = "0";
+    document.getElementById("perr").textContent = ""; render(); toast(tr("Publié"));
+  });
+  feed.addEventListener("click", e => {
+    const l = e.target.closest("[data-like]"), r = e.target.closest("[data-report]");
+    if (l) { const p = posts[l.dataset.like]; p.liked = !p.liked; p.likes += p.liked ? 1 : -1; alDemo.set("posts", posts); render(); }
+    if (r) toast(tr("Signalement envoyé aux modérateurs"));
+  });
+  render();
+});
+</script>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ask-ai.js"></script>
+
+</body>
+</html>

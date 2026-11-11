@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MY CLOUD · Aldetic Frontiers</title>
+<meta name="description" content="Aldetic Frontiers Ltd : Technology Beyond Limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body data-protected="true">
+<div id="site-header"></div>
+<section style="padding-top:40px;border:0">
+  <div class="wrap">
+    <p class="eyebrow" data-intro>MY CLOUD</p>
+    <h1 data-intro style="font-size:clamp(36px,4.6vw,54px)" data-en="Publish a site">Publier un site</h1>
+    <p class="lead" data-intro style="margin-top:14px" data-en="Import a ZIP or connect a repository. Static sites first. Nothing runs before you confirm.">Importez un ZIP ou connectez un dépôt. Sites statiques d'abord. Rien ne s'exécute avant votre confirmation.</p>
+  </div>
+</section>
+<section class="band" style="padding-top:40px">
+  <div class="wrap" style="display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,4vw,48px);align-items:start">
+    <div>
+      <label for="zip" id="drop" style="display:block;border:1.5px dashed #AEB6C4;border-radius:12px;padding:48px 24px;text-align:center;background:#fff;cursor:pointer">
+        <strong data-en="Choose a ZIP archive">Choisir une archive ZIP</strong>
+        <p class="muted" style="margin:8px 0 0;font-size:14.5px" data-en="Up to the size set by your plan (to be confirmed). Checked before extraction.">Dans la limite de votre formule (à confirmer). Vérifiée avant extraction.</p>
+        <input id="zip" type="file" accept=".zip" style="position:absolute;opacity:0;pointer-events:none">
+      </label>
+      <p id="zres" class="notice" style="margin-top:16px" hidden></p>
+    </div>
+    <div class="panel">
+      <h3 data-en="Deployment steps">Étapes de déploiement</h3>
+      <ol style="padding-left:20px;line-height:2;margin:10px 0 0;font-size:15px">
+        <li data-en="Import the archive">Importer l'archive</li>
+        <li data-en="Detect the project type">Détecter le type de projet</li>
+        <li data-en="Ask for missing settings">Demander les paramètres manquants</li>
+        <li data-en="Deploy and show the public address">Déployer et afficher l'adresse publique</li>
+      </ol>
+      <p class="badge todo" style="margin-top:12px" data-en="Deployment service not connected">Service de déploiement non connecté</p>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener("aldetic:ready", () => {
+  const input = document.getElementById("zip"), res = document.getElementById("zres");
+  input.addEventListener("change", () => {
+    const f = input.files[0]; if (!f) return;
+    res.hidden = false;
+    if (!/\.zip$/i.test(f.name)) { res.className = "notice warn"; res.textContent = tr("Ce fichier n'est pas une archive ZIP."); return; }
+    if (f.size > 100 * 1024 * 1024) { res.className = "notice warn"; res.textContent = tr("Archive trop lourde pour la formule gratuite (limite à confirmer)."); return; }
+    res.className = "notice";
+    res.textContent = window.aldeticDb ? `${f.name} reçue. Vérification en cours.` : `${f.name} vérifiée localement. Le déploiement n'est pas encore disponible : le service n'est pas connecté.`;
+  });
+});
+</script>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ask-ai.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administration · Aldetic</title><link rel="stylesheet" href="assets/css/base.css"></head>
+<body data-protected="true">
+<div id="site-header"></div>
+<section style="padding-top:40px;border:0"><div class="wrap">
+  <p class="eyebrow">Administration</p>
+  <h1 style="font-size:clamp(36px,4.6vw,52px)">Candidatures</h1>
+  <p id="state" class="notice warn" style="margin-top:20px" hidden></p>
+  <div id="panel" hidden style="margin-top:28px">
+    <div id="list" style="display:grid;gap:12px"></div>
+    <p id="none" class="empty" hidden>Aucune candidature pour le moment.</p>
+  </div>
+</div></section>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script><script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+document.addEventListener("aldetic:ready", async () => {
+  const state = document.getElementById("state");
+  const show = (t) => { state.textContent = t; state.hidden = false; };
+  const db = window.aldeticDb;
+  if (!db) return show("Base de données non connectée : l'administration est indisponible.");
+  const { data: s } = await db.auth.getSession();
+  if (!s.session) { location.href = "connexion.html"; return; }
+  // Le rôle est vérifié par la base (RLS). Si ce compte n'est pas staff, la requête ne renvoie rien.
+  const { data: apps, error } = await db.from("applications").select("id,email,status,created_at,offer_id").order("created_at", { ascending: false });
+  if (error || !apps) return show("Accès refusé. Ce compte n'a pas le rôle nécessaire.");
+  document.getElementById("panel").hidden = false;
+  document.getElementById("none").hidden = apps.length > 0;
+  const statuses = ["received","review","interview","hired","rejected","archived"];
+  document.getElementById("list").innerHTML = apps.map(a => `<div class="panel" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+    <div><strong>${esc(a.email)}</strong><p class="muted" style="margin:4px 0 0;font-size:14px">${new Date(a.created_at).toLocaleString()}</p></div>
+    <select data-app="${a.id}" style="width:auto">${statuses.map(x => `<option ${x===a.status?"selected":""}>${x}</option>`).join("")}</select></div>`).join("");
+  document.getElementById("list").addEventListener("change", async e => {
+    const id = e.target.dataset.app; if (!id) return;
+    const { error: uerr } = await db.from("applications").update({ status: e.target.value }).eq("id", id);
+    toast(uerr ? "Mise à jour refusée" : "Statut mis à jour");
+  });
+});
+</script>
+</body></html>

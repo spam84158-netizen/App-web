@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Services · Aldetic Frontiers</title>
+<meta name="description" content="Aldetic Frontiers Ltd : Technology Beyond Limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body data-protected="false">
+<div id="site-header"></div>
+<section style="padding-top:clamp(56px,8vw,96px);border:0">
+  <div class="wrap">
+    <p class="eyebrow" data-intro data-en="Services">Services</p>
+    <h1 data-intro style="font-size:clamp(40px,5vw,64px)" data-en="Tools for every stage of a project.">Des outils pour chaque étape d'un projet.</h1>
+  </div>
+</section>
+<section class="band" style="padding-top:48px">
+  <div class="wrap">
+    <div role="tablist" data-tabs aria-label="Catégories" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px">
+      <button role="tab" aria-selected="true" aria-controls="t-dev" class="btn small" style="background:var(--ink)" data-en="Development">Développement</button>
+      <button role="tab" aria-selected="false" aria-controls="t-ai" class="btn small ghost" data-en="AI and APIs">IA et API</button>
+      <button role="tab" aria-selected="false" aria-controls="t-com" class="btn small ghost" data-en="Community">Communauté</button>
+    </div>
+    <div id="t-dev" role="tabpanel">
+      <div class="panel" style="display:grid;gap:28px">
+        <div><span class="badge todo">MY GIT · <span data-en="in preparation">en préparation</span></span><h3 style="margin:14px 0 6px">MY GIT</h3><p class="muted" data-en="One Git repository per project, with commands to copy into Termux. Access: free plan, within quotas.">Un dépôt Git par projet, avec des commandes à copier dans Termux. Accès : formule gratuite, dans les quotas.</p></div>
+        <div><span class="badge todo">MY CLOUD · <span data-en="in preparation">en préparation</span></span><h3 style="margin:14px 0 6px">MY CLOUD</h3><p class="muted" data-en="Import a ZIP or connect a repository, then publish a static site with a public URL.">Importez un ZIP ou connectez un dépôt, puis publiez un site statique avec une adresse publique.</p></div>
+        <div><span class="badge todo">MY EDITOR · <span data-en="planned">prévu</span></span><h3 style="margin:14px 0 6px">MY EDITOR</h3><p class="muted" data-en="Edit project files in the browser, with syntax highlighting and save.">Modifiez les fichiers du projet dans le navigateur, avec coloration syntaxique et sauvegarde.</p></div>
+        <div><span class="badge todo">MY TERMINAL · <span data-en="planned">prévu</span></span><h3 style="margin:14px 0 6px">MY TERMINAL</h3><p class="muted" data-en="A terminal in an isolated, time-limited environment. Not available until security is validated.">Un terminal dans un environnement isolé et limité dans le temps. Indisponible tant que la sécurité n'est pas validée.</p></div>
+      </div>
+    </div>
+    <div id="t-ai" role="tabpanel" hidden>
+      <div class="panel" style="display:grid;gap:28px">
+        <div><span class="badge todo">AI CHAT · <span data-en="in preparation">en préparation</span></span><h3 style="margin:14px 0 6px">AI CHAT</h3><p class="muted" data-en="Conversations, history and code formatting. Models and quotas to be confirmed.">Conversations, historique et mise en forme du code. Modèles et quotas à confirmer.</p></div>
+        <div><span class="badge todo">AI STUDIO · <span data-en="planned">prévu</span></span><h3 style="margin:14px 0 6px">AI STUDIO</h3><p class="muted" data-en="Describe a project, review a proposed file structure, then create it in your workspace.">Décrivez un projet, examinez la structure proposée, puis créez-la dans votre espace.</p></div>
+        <div><span class="badge todo">Coding Agent · <span data-en="planned">prévu</span></span><h3 style="margin:14px 0 6px">Coding Agent</h3><p class="muted" data-en="Explains errors and proposes changes. Nothing is modified without your confirmation.">Explique les erreurs et propose des modifications. Rien n'est modifié sans votre confirmation.</p></div>
+        <div><span class="badge todo">API CENTER · <span data-en="in preparation">en préparation</span></span><h3 style="margin:14px 0 6px">API CENTER</h3><p class="muted" data-en="Catalogue, documentation, access keys shown once, revocation and quotas.">Catalogue, documentation, clés d'accès affichées une seule fois, révocation et quotas.</p></div>
+      </div>
+    </div>
+    <div id="t-com" role="tabpanel" hidden>
+      <div class="panel" style="display:grid;gap:28px">
+        <div><span class="badge todo">Developer Hub · <span data-en="in preparation">en préparation</span></span><h3 style="margin:14px 0 6px">Developer Hub</h3><p class="muted" data-en="Profiles, posts, project pages and collaboration requests, with reporting and moderation.">Profils, publications, pages de projet et demandes de collaboration, avec signalement et modération.</p></div>
+        <div><span class="badge todo">Carrières · <span data-en="in preparation">en préparation</span></span><h3 style="margin:14px 0 6px" data-en="Careers">Carrières</h3><p class="muted" data-en="Offers with clear conditions, applications and status tracking.">Offres aux conditions claires, candidatures et suivi du statut.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener("aldetic:ready", () => {
+  document.querySelectorAll("[role=tab]").forEach(t => t.addEventListener("click", () => {
+    document.querySelectorAll("[role=tab]").forEach(o => { o.classList.toggle("ghost", o !== t); o.setAttribute("aria-selected", String(o === t)); });
+  }));
+});
+</script>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ask-ai.js"></script>
+
+</body>
+</html>

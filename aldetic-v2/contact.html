@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact · Aldetic Frontiers</title>
+<meta name="description" content="Aldetic Frontiers Ltd : Technology Beyond Limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body data-protected="false">
+<div id="site-header"></div>
+<section style="padding-top:clamp(56px,8vw,96px);border:0">
+  <div class="wrap" style="display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,6vw,80px);align-items:start">
+    <div>
+      <p class="eyebrow" data-intro data-en="Contact">Contact</p>
+      <h1 data-intro style="font-size:clamp(40px,5vw,60px)" data-en="Write to the right team.">Écrivez à la bonne équipe.</h1>
+      <p class="lead" data-intro style="margin:20px 0 32px" data-en="Choose a topic so your message reaches the team that can answer it.">Choisissez un sujet pour que votre message parvienne à l'équipe concernée.</p>
+      <div class="panel" data-reveal>
+        <h3 data-en="Official contact details">Coordonnées officielles</h3>
+        <p class="muted" style="margin:8px 0 0;font-size:15px" data-en="To be published once confirmed: postal address, support email and registration details.">À publier une fois confirmées : adresse postale, e-mail de support et données d'immatriculation.</p>
+      </div>
+    </div>
+    <form class="panel" id="cf" novalidate>
+      <div class="field"><label for="t" data-en="Topic">Sujet</label><select id="t"><option data-en="General question">Question générale</option><option data-en="Technical support">Assistance technique</option><option data-en="Billing">Facturation</option><option data-en="Careers">Carrières</option><option data-en="Report a problem">Signaler un problème</option></select></div>
+      <div class="field"><label for="cn" data-en="Name">Nom</label><input id="cn" required autocomplete="name"><span class="err" id="ce1"></span></div>
+      <div class="field"><label for="ce" data-en="Email">E-mail</label><input id="ce" type="email" required autocomplete="email"><span class="err" id="ce2"></span></div>
+      <div class="field"><label for="cm" data-en="Message">Message</label><textarea id="cm" maxlength="2000"></textarea><span class="err" id="ce3"></span></div>
+      <button class="btn cobalt" type="submit" style="width:100%" data-en="Send">Envoyer</button>
+      <p class="notice warn" id="cres" style="margin-top:16px" hidden></p>
+    </form>
+  </div>
+</section>
+<script>
+document.addEventListener("aldetic:ready", () => {
+  document.getElementById("cf").addEventListener("submit", e => {
+    e.preventDefault();
+    const n = cn.value.trim(), m = ce.value, msg = cm.value.trim();
+    ce1.textContent = n.length < 2 ? tr("Indiquez votre nom.") : "";
+    ce2.textContent = /^\S+@\S+\.\S+$/.test(m) ? "" : tr("Adresse e-mail invalide.");
+    ce3.textContent = msg.length < 10 ? tr("Message trop court (10 caractères minimum).") : "";
+    if (ce1.textContent || ce2.textContent || ce3.textContent) return;
+    const r = document.getElementById("cres"); r.hidden = false;
+    r.textContent = window.aldeticDb ? tr("Message envoyé.") : tr("Envoi indisponible : le service de messagerie n'est pas encore branché. Votre message n'a pas été transmis.");
+  });
+});
+</script>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ask-ai.js"></script>
+</body>
+</html>

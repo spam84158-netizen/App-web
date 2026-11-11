@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Documentation · Aldetic Frontiers</title>
+<meta name="description" content="Aldetic Frontiers Ltd : Technology Beyond Limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body data-protected="false">
+<div id="site-header"></div>
+<section style="padding-top:clamp(48px,7vw,80px);border:0">
+  <div class="wrap">
+    <p class="eyebrow" data-intro data-en="Documentation">Documentation</p>
+    <h1 data-intro style="font-size:clamp(40px,5vw,60px)" data-en="Guides and reference.">Guides et références.</h1>
+  </div>
+</section>
+<section class="band" style="padding-top:40px">
+  <div class="wrap" style="display:grid;grid-template-columns:240px 1fr;gap:clamp(24px,4vw,56px);align-items:start">
+    <aside style="position:sticky;top:110px;display:grid;gap:4px;font-size:15px">
+      <div class="field" style="margin-bottom:12px"><label for="dq" class="sr" data-en="Search docs">Rechercher dans la documentation</label><input id="dq" type="search" placeholder="Rechercher…" data-ph-en="Search…"></div>
+      <a href="#start" data-en="Getting started">Premiers pas</a>
+      <a href="#termux" data-en="MY GIT from Termux">MY GIT depuis Termux</a>
+      <a href="#zip" data-en="Importing a ZIP">Importer un ZIP</a>
+      <a href="#security" data-en="Security and secrets">Sécurité et secrets</a>
+    </aside>
+    <div style="display:grid;gap:44px;max-width:72ch">
+      <article id="start"><h2 style="font-size:34px" data-en="Getting started">Premiers pas</h2><p class="muted" data-en="Create an account, then create a project from your dashboard. Your project receives a repository on MY GIT.">Créez un compte, puis un projet depuis votre tableau de bord. Votre projet reçoit un dépôt sur MY GIT.</p></article>
+      <article id="termux"><h2 style="font-size:34px" data-en="MY GIT from Termux">MY GIT depuis Termux</h2>
+        <p class="muted" data-en="Extract your archive on the phone, then push the files to your repository. Replace the address with the one shown in your repository page.">Extrayez votre archive sur le téléphone, puis envoyez les fichiers vers votre dépôt. Remplacez l'adresse par celle affichée sur la page de votre dépôt.</p>
+        <pre class="code"><button class="btn small ghost copy" data-copy="pkg install git unzip" type="button">Copier</button>pkg install git unzip
+cd ~/storage/downloads
+unzip MONPROJET.zip -d MONPROJET
+cd MONPROJET
+git init
+git add .
+git commit -m "Initial project upload"
+git branch -M main
+git remote add origin ADRESSE_AFFICHEE_SUR_LE_SITE
+git push -u origin main</pre>
+        <p class="notice warn" style="margin-top:16px" data-en="Never put a password or token in a command. Git will ask you to authenticate.">Ne mettez jamais de mot de passe ou de jeton dans une commande. Git vous demandera de vous authentifier.</p></article>
+      <article id="zip"><h2 style="font-size:34px" data-en="Importing a ZIP">Importer un ZIP</h2><p class="muted" data-en="MY CLOUD accepts ZIP archives up to the size shown in your quota. Archives are checked before extraction, and nothing runs automatically.">MY CLOUD accepte les archives ZIP dans la limite de votre quota. Les archives sont vérifiées avant extraction, et rien ne s'exécute automatiquement.</p></article>
+      <article id="security"><h2 style="font-size:34px" data-en="Security and secrets">Sécurité et secrets</h2><p class="muted" data-en="Keep keys and passwords out of repositories. Use environment variables. If a secret is exposed, revoke it immediately.">Gardez les clés et mots de passe hors des dépôts. Utilisez des variables d'environnement. Si un secret est exposé, révoquez-le immédiatement.</p></article>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener("aldetic:ready", () => {
+  const q = document.getElementById("dq");
+  q.addEventListener("input", () => {
+    const v = q.value.toLowerCase();
+    document.querySelectorAll("article").forEach(a => a.style.display = !v || a.textContent.toLowerCase().includes(v) ? "" : "none");
+  });
+});
+</script>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ask-ai.js"></script>
+
+</body>
+</html>

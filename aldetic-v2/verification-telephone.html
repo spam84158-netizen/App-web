@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vérification du numéro · Aldetic</title><link rel="stylesheet" href="assets/css/base.css"></head>
+<body data-protected="false">
+<div id="site-header"></div>
+<section style="padding-top:clamp(56px,8vw,96px);border:0"><div class="wrap" style="max-width:480px">
+  <p class="eyebrow">Vérification</p>
+  <h1 style="font-size:clamp(36px,4.6vw,50px)">Votre numéro</h1>
+  <p class="lead" style="margin:16px 0 28px">Étape obligatoire avant l'accès à la plateforme.</p>
+
+  <form id="step-phone" class="panel" novalidate>
+    <div class="field"><label for="country">Pays</label><select id="country"></select></div>
+    <div class="field"><label for="phone">Numéro (sans l'indicatif)</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel-national" required>
+      <small id="fmt">Le numéro doit correspondre à l'indicatif du pays choisi.</small><span class="err" id="perr"></span></div>
+    <button class="btn" type="submit" style="width:100%">Envoyer le code</button>
+  </form>
+
+  <form id="step-code" class="panel" hidden novalidate>
+    <p id="sent" class="muted" style="margin:0 0 16px"></p>
+    <div id="wait" class="notice" hidden>Envoi du code en cours…</div>
+    <div class="field" style="margin-top:14px"><label for="code">Code à 6 chiffres</label><input id="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code"><span class="err" id="cerr"></span></div>
+    <button class="btn" type="submit" style="width:100%">Valider</button>
+    <p class="notice warn" id="simnote" style="margin-top:16px" hidden>Mode simulé : le code est rempli automatiquement, sans SMS réel. À remplacer par un vrai envoi avant mise en production.</p>
+  </form>
+</div></section>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script><script src="assets/js/supabase.js"></script>
+<script src="assets/js/countries.js"></script><script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script><script src="assets/js/phone.js"></script>
+</body></html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carrières · Aldetic Frontiers</title>
+<meta name="description" content="Aldetic Frontiers Ltd : Technology Beyond Limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body data-protected="false">
+<div id="site-header"></div>
+<section style="padding-top:clamp(56px,8vw,96px);border:0">
+  <div class="wrap">
+    <p class="eyebrow" data-intro data-en="Careers">Carrières</p>
+    <h1 data-intro style="font-size:clamp(40px,5vw,64px);max-width:16ch" data-en="Work on tools that people use.">Travaillez sur des outils utilisés au quotidien.</h1>
+    <p class="lead" data-intro style="margin-top:20px" data-en="Every offer states its missions, expected skills, location or remote conditions, and publication date.">Chaque offre précise ses missions, les compétences attendues, la localisation ou le télétravail, et sa date de publication.</p>
+  </div>
+</section>
+<section class="band" style="padding-top:40px">
+  <div class="wrap" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:start">
+    <div>
+      <h2 style="font-size:clamp(28px,3vw,36px)" data-en="Open offers">Offres ouvertes</h2>
+      <div id="offers" class="empty"><p style="margin:0 0 6px;color:var(--ink)" data-en="No offer is published yet.">Aucune offre publiée pour le moment.</p><p style="margin:0" data-en="Send a spontaneous application using the form. We reply to every application.">Envoyez une candidature spontanée avec le formulaire. Chaque candidature reçoit une réponse.</p></div>
+      <div class="panel" style="margin-top:20px">
+        <h3 data-en="Application status">Suivi de candidature</h3>
+        <p class="muted" style="margin:6px 0 0;font-size:15px" data-en="Statuses: received, under review, interview, selected, not selected, archived.">Statuts : reçue, en examen, entretien, retenue, non retenue, archivée.</p>
+      </div>
+    </div>
+    <form class="panel" id="apply" novalidate>
+      <h3 style="margin-bottom:18px;font-size:20px" data-en="Spontaneous application">Candidature spontanée</h3>
+      <div class="field"><label for="n" data-en="Full name">Nom complet</label><input id="n" required autocomplete="name"><span class="err" id="en"></span></div>
+      <div class="field"><label for="m" data-en="Email">E-mail</label><input id="m" type="email" required autocomplete="email"><span class="err" id="em"></span></div>
+      <div class="field"><label for="ro" data-en="Profile">Profil</label><select id="ro"><option data-en="Developer">Développeur</option><option data-en="Designer UI/UX">Designer UI/UX</option><option data-en="AI and data">IA et données</option><option data-en="Cybersecurity (defensive)">Cybersécurité (défensive)</option><option data-en="Project lead">Chef de projet</option><option data-en="Other">Autre</option></select></div>
+      <div class="field"><label for="cv" data-en="CV or portfolio">CV ou portfolio</label><input id="cv" type="file" accept=".pdf,.docx" aria-describedby="cvh"><small id="cvh" data-en="PDF or DOCX, 5 MB maximum.">PDF ou DOCX, 5 Mo maximum.</small><span class="err" id="ec"></span></div>
+      <div class="field"><label for="msg" data-en="Message">Message</label><textarea id="msg" maxlength="1000"></textarea></div>
+      <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-bottom:18px"><input type="checkbox" id="ok" style="width:auto;min-height:0;margin-top:4px"> <span data-en="I agree that my data is processed to review my application, as described in the privacy policy.">J'accepte que mes données soient traitées pour examiner ma candidature, selon la politique de confidentialité.</span></label>
+      <button class="btn cobalt" type="submit" style="width:100%" data-en="Send application">Envoyer ma candidature</button>
+      <p class="notice warn" id="ap" style="margin-top:16px" hidden></p>
+    </form>
+  </div>
+</section>
+<script>
+document.addEventListener("aldetic:ready", () => {
+  const f = document.getElementById("apply");
+  f.addEventListener("submit", e => {
+    e.preventDefault(); let ok = true;
+    const set = (id, msg) => { document.getElementById(id).textContent = msg; if (msg) ok = false; };
+    set("en", document.getElementById("n").value.trim().length < 2 ? tr("Indiquez votre nom.") : "");
+    set("em", /^\S+@\S+\.\S+$/.test(document.getElementById("m").value) ? "" : tr("Adresse e-mail invalide."));
+    const file = document.getElementById("cv").files[0];
+    if (file) {
+      const okType = /\.(pdf|docx)$/i.test(file.name);
+      set("ec", !okType ? tr("Format non accepté (PDF ou DOCX).") : file.size > 5 * 1024 * 1024 ? tr("Fichier trop lourd (5 Mo maximum).") : "");
+    }
+    if (!document.getElementById("ok").checked) { ok = false; toast(tr("Acceptez le traitement de vos données.")); }
+    if (!ok) return;
+    const ap = document.getElementById("ap");
+    ap.hidden = false;
+    ap.textContent = window.aldeticDb ? tr("Envoi en cours…") : tr("Envoi indisponible : la base de candidatures n'est pas encore branchée. Vos informations n'ont pas été transmises.");
+    if (window.aldeticDb) ap.textContent = tr("Candidature reçue.");
+  });
+});
+</script>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ask-ai.js"></script>
+
+</body>
+</html>

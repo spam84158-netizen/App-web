@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tableau de bord · Aldetic Frontiers</title>
+<meta name="description" content="Aldetic Frontiers Ltd : Technology Beyond Limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body data-protected="true">
+<div id="site-header"></div>
+<section style="padding-top:40px;border:0">
+  <div class="wrap">
+    <p class="eyebrow" data-intro data-en="Dashboard">Tableau de bord</p>
+    <h1 data-intro style="font-size:clamp(36px,4.6vw,54px)" data-en="Welcome.">Bienvenue.</h1>
+    <div class="notice warn" id="dbnote" hidden style="margin-top:20px" data-en="Demo mode: the database is not connected. Figures below are empty until your account and data exist.">Mode démonstration : la base n'est pas connectée. Les chiffres ci-dessous restent vides tant que votre compte et vos données n'existent pas.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:32px 0">
+      <div class="panel"><p class="muted" style="margin:0;font-size:14px" data-en="Plan">Formule</p><p style="font-family:var(--serif);font-size:30px;margin:6px 0 0" data-en="Free">Gratuite</p></div>
+      <div class="panel"><p class="muted" style="margin:0;font-size:14px" data-en="Projects">Projets</p><p style="font-family:var(--serif);font-size:30px;margin:6px 0 0">0</p></div>
+      <div class="panel"><p class="muted" style="margin:0;font-size:14px" data-en="Repositories">Dépôts</p><p style="font-family:var(--serif);font-size:30px;margin:6px 0 0">0</p></div>
+      <div class="panel"><p class="muted" style="margin:0;font-size:14px" data-en="Deployments">Déploiements</p><p style="font-family:var(--serif);font-size:30px;margin:6px 0 0">0</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="panel"><h3 data-en="Quotas">Quotas</h3><p class="muted" style="font-size:15px;margin:8px 0 0" data-en="Usage bars appear once limits are confirmed. Nothing is displayed as used when no usage exists.">Les barres d'utilisation apparaissent une fois les limites confirmées.</p></div>
+      <div class="panel"><h3 data-en="Recent activity">Activité récente</h3><div class="empty" style="margin-top:12px;padding:28px" data-en="No activity yet.">Aucune activité pour le moment.</div></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:28px">
+      <a class="btn" href="git.html">MY GIT</a><a class="btn ghost" href="cloud.html">MY CLOUD</a><a class="btn ghost" href="chat.html">AI CHAT</a><a class="btn ghost" href="api.html">API CENTER</a><a class="btn ghost" href="projets.html" data-en="Projects">Projets</a>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener("aldetic:ready", () => { if (!window.aldeticDb) document.getElementById("dbnote").hidden = false; });
+</script>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ask-ai.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MY GIT · Aldetic Frontiers</title>
+<meta name="description" content="Aldetic Frontiers Ltd : Technology Beyond Limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body data-protected="true">
+<div id="site-header"></div>
+<section style="padding-top:40px;border:0">
+  <div class="wrap">
+    <p class="eyebrow" data-intro>MY GIT</p>
+    <h1 data-intro style="font-size:clamp(36px,4.6vw,54px)" data-en="Repositories">Dépôts</h1>
+    <p class="lead" data-intro style="margin-top:14px" data-en="Create a repository for each project, then push your files from Termux or your computer.">Créez un dépôt pour chaque projet, puis envoyez vos fichiers depuis Termux ou votre ordinateur.</p>
+  </div>
+</section>
+<section class="band" style="padding-top:40px">
+  <div class="wrap" style="display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(24px,4vw,48px);align-items:start">
+    <form class="panel" id="newrepo" novalidate>
+      <h3 style="font-size:20px;margin-bottom:16px" data-en="New repository">Nouveau dépôt</h3>
+      <div class="field"><label for="rn" data-en="Name">Nom</label><input id="rn" pattern="[A-Za-z0-9._-]+" required placeholder="mon-projet" data-ph-en="my-project"><small data-en="Letters, digits, dot, dash and underscore.">Lettres, chiffres, point, tiret et tiret bas.</small><span class="err" id="rne"></span></div>
+      <div class="field"><label for="rd" data-en="Description">Description</label><input id="rd"></div>
+      <div class="field"><label for="rv" data-en="Visibility">Visibilité</label><select id="rv"><option value="private" data-en="Private">Privé</option><option value="public" data-en="Public">Public</option></select></div>
+      <button class="btn" type="submit" style="width:100%" data-en="Create repository">Créer le dépôt</button>
+      <p class="notice warn" id="gres" style="margin-top:16px" hidden></p>
+    </form>
+    <div>
+      <div id="repos" style="display:grid;gap:12px"></div>
+      <div id="repo-empty" class="empty" data-en="No repository yet.">Aucun dépôt pour le moment.</div>
+      <div id="termux" class="panel" style="margin-top:20px" hidden>
+        <h3 style="font-size:18px" data-en="Commands for Termux">Commandes pour Termux</h3>
+        <p class="muted" style="font-size:14.5px" data-en="Replace MONPROJET with your archive folder. The address comes from the server; it is not invented here.">Remplacez MONPROJET par le dossier de votre archive. L'adresse vient du serveur ; elle n'est pas inventée ici.</p>
+        <pre class="code" id="cmds"></pre>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener("aldetic:ready", () => {
+  let repos = alDemo.get("repos", []);
+  const list = () => {
+    document.getElementById("repo-empty").hidden = repos.length > 0;
+    document.getElementById("repos").innerHTML = repos.map(r => `<div class="panel" style="padding:18px"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <strong>${esc(r.name)}</strong><span class="badge ${r.visibility === "public" ? "ok" : ""}">${r.visibility === "public" ? "Public" : "Privé"}</span></div>
+      <p class="muted" style="margin:6px 0 0;font-size:14.5px">${esc(r.description || "")}</p>
+      <p class="badge todo" style="margin-top:10px">Adresse Git : en attente du serveur</p></div>`).join("");
+  };
+  document.getElementById("newrepo").addEventListener("submit", e => {
+    e.preventDefault();
+    const name = document.getElementById("rn").value.trim();
+    const err = document.getElementById("rne");
+    if (!/^[A-Za-z0-9._-]+$/.test(name)) { err.textContent = tr("Nom invalide."); return; }
+    err.textContent = "";
+    repos.unshift({ name, description: document.getElementById("rd").value, visibility: document.getElementById("rv").value });
+    alDemo.set("repos", repos);
+    const res = document.getElementById("gres"); res.hidden = false;
+    res.textContent = window.aldeticDb ? tr("Dépôt créé.") : "Démonstration : le dépôt est enregistré dans ce navigateur. Il n'existe pas encore sur le serveur Git.";
+    const t = document.getElementById("termux"); t.hidden = false;
+    document.getElementById("cmds").textContent = `pkg install git unzip
+cd ~/storage/downloads
+unzip ${name}.zip -d ${name}
+cd ${name}
+git init
+git add .
+git commit -m "Initial upload"
+git branch -M main
+git remote add origin ADRESSE_AFFICHEE_PAR_LE_SERVEUR
+git push -u origin main`;
+    list();
+  });
+  list();
+});
+</script>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ask-ai.js"></script>
+</body>
+</html>

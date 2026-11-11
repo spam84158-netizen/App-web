@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projets · Aldetic Frontiers</title>
+<meta name="description" content="Aldetic Frontiers Ltd : Technology Beyond Limits.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+</head>
+<body data-protected="false">
+<div id="site-header"></div>
+<section style="padding-top:clamp(56px,8vw,96px);border:0">
+  <div class="wrap">
+    <p class="eyebrow" data-intro data-en="Projects">Projets</p>
+    <h1 data-intro style="font-size:clamp(40px,5vw,64px)" data-en="Built in the open.">Construits au grand jour.</h1>
+    <p class="lead" data-intro style="margin-top:20px" data-en="Public projects from the community and from Aldetic. Projects appear here once their owner publishes them.">Projets publics de la communauté et d'Aldetic. Un projet apparaît ici une fois publié par son auteur.</p>
+  </div>
+</section>
+<section class="band" style="padding-top:40px">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 220px;gap:12px;margin-bottom:28px">
+      <div class="field" style="margin:0"><label for="q" data-en="Search">Rechercher</label><input id="q" type="search" placeholder="Nom, technologie…" data-ph-en="Name, technology…"></div>
+      <div class="field" style="margin:0"><label for="tech" data-en="Technology">Technologie</label>
+        <select id="tech"><option value="" data-en="All">Toutes</option><option>HTML / CSS / JS</option><option>React</option><option>Python</option><option>Android</option><option>Autre</option></select></div>
+    </div>
+    <div id="grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px"></div>
+    <div id="empty" class="empty" hidden>
+      <p style="margin:0 0 6px;color:var(--ink)" data-en="No public project yet.">Aucun projet public pour le moment.</p>
+      <p style="margin:0" data-en="Create a project from your dashboard to publish it here.">Créez un projet depuis votre tableau de bord pour le publier ici.</p>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener("aldetic:ready", () => {
+  const all = alDemo.get("projects", []).filter(p => p.visibility === "public");
+  const grid = document.getElementById("grid"), empty = document.getElementById("empty");
+  function render() {
+    const q = document.getElementById("q").value.toLowerCase(), t = document.getElementById("tech").value;
+    const list = all.filter(p => (!q || (p.name + " " + p.description).toLowerCase().includes(q)) && (!t || p.tech === t));
+    grid.innerHTML = list.map(p => `<article class="panel"><span class="badge">${esc(p.tech || "—")}</span>
+      <h3 style="margin:14px 0 6px">${esc(p.name)}</h3><p class="muted" style="margin:0;font-size:15px">${esc(p.description || "")}</p></article>`).join("");
+    empty.hidden = list.length > 0;
+    if (!all.length) empty.hidden = false;
+  }
+  ["q","tech"].forEach(id => document.getElementById(id).addEventListener("input", render));
+  render();
+});
+</script>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase.js"></script>
+<script src="assets/js/i18n-en.js"></script>
+<script src="assets/js/i18n-es.js"></script>
+<script src="assets/js/i18n-ar.js"></script>
+<script src="assets/js/i18n-zh.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/motion.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/ask-ai.js"></script>
+
+</body>
+</html>
